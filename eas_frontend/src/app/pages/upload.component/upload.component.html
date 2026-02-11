@@ -1,0 +1,43 @@
+<div class="upload-page">
+  <h1>Upload Employment Agreement</h1>
+  <p class="subtitle">Drag & drop your PDF or click to browse.</p>
+
+  <div
+    class="drop-zone"
+    [class.active]="selectedFile()"
+    (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"
+  >
+    @if (!selectedFile()) {
+      <div class="placeholder">
+        <div class="icon"></div>
+        <p>Drag & drop your PDF here</p>
+        <span>or</span>
+
+        <label class="browse-btn">
+          Browse File
+          <input type="file" accept=".pdf" hidden (change)="onFileSelected($event)" />
+        </label>
+      </div>
+    }
+
+    @if (selectedFile()) {
+      <div class="file-preview">
+        <div class="file-info">
+          <strong>{{ selectedFile()!.name }}</strong>
+          <small>{{ (selectedFile()!.size / 1024 / 1024).toFixed(2) }} MB</small>
+        </div>
+
+        <button class="remove" (click)="removeFile()">✕</button>
+      </div>
+    }
+  </div>
+
+  <button class="upload-btn" (click)="upload()" [disabled]="uploading() || !selectedFile()">
+    {{ uploading() ? 'Analyzing document…' : 'Upload & Analyze' }}
+  </button>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</div>

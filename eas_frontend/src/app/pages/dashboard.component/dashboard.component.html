@@ -1,0 +1,42 @@
+<div class="dashboard">
+  <h2>My Documents</h2>
+
+  @if (loading()) {
+    <p class="loading">Loading documents…</p>
+  }
+
+  @if (!loading() && documents().length === 0) {
+    <div class="empty">
+      <p>No documents uploaded yet.</p>
+      <a routerLink="/upload" class="btn primary">Upload your first document</a>
+    </div>
+  }
+
+  @if (documents().length > 0) {
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>File name</th>
+          <th>Status</th>
+          <th>Uploaded</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (doc of documents(); track doc.id) {
+          <tr>
+            <td>{{ doc.fileName }}</td>
+            <td>
+              <span class="status">{{ doc.status }}</span>
+            </td>
+            <td>{{ doc.createdAt | date: 'mediumDate' }}</td>
+            <td>
+              <button class="btn ghost" (click)="openDocument(doc.id)">View</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

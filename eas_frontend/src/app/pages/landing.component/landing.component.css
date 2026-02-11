@@ -1,0 +1,32 @@
+.hero {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    padding: 100px 40px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+}
+
+.hero button {
+    margin-top: 30px;
+    padding: 14px 30px;
+    font-size: 1.1rem;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 60px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    width: 260px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}

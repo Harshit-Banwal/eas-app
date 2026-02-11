@@ -1,0 +1,23 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h2>Welcome back</h2>
+    <p class="subtitle">Sign in to continue to LegalDOCS</p>
+
+    <input type="email" placeholder="Email address" [(ngModel)]="email" />
+
+    <input type="password" placeholder="Password" [(ngModel)]="password" />
+
+    <button class="btn primary" [disabled]="email == '' || password == ''" (click)="login()">
+      Login
+    </button>
+
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    <p class="footer-text">
+      Don’t have an account?
+      <a routerLink="/signup">Create one</a>
+    </p>
+  </div>
+</div>

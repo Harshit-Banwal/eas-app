@@ -1,0 +1,9 @@
+<div class="confidence-wrapper">
+  <div class="label">Confidence: {{ percentage }}%</div>
+
+  <div class="bar">
+    <div class="fill" [style.width.%]="percentage"></div>
+  </div>
+
+  <small class="note"> {{ label }} — based on clarity and consistency of the clause text. </small>
+</div>

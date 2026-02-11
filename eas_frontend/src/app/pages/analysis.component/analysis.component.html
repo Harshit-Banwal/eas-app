@@ -1,0 +1,93 @@
+<div class="analysis-page">
+  <h1>Document Analysis</h1>
+
+  @if (summaryLoading()) {
+    <div class="summary-card">Generating document summary…</div>
+  }
+
+  @if (summary()) {
+    <div class="summary-card">
+      <h2>📄 Document Summary</h2>
+
+      <p class="summary-text">
+        {{ summary()!.summary }}
+      </p>
+
+      <div class="risk-box">
+        <strong>⚠️ Key Risks</strong>
+        <p>{{ summary()!.riskOverview }}</p>
+      </div>
+
+      <div class="favors">
+        <strong>👤 Favors:</strong>
+        {{ summary()!.favors }}
+      </div>
+
+      <small class="disclaimer">
+        {{ summary()!.disclaimer }}
+      </small>
+    </div>
+  }
+
+  @if (loading()) {
+    <p>Analyzing clauses…</p>
+  }
+
+  @for (clause of clauses(); track clause.id) {
+    <div class="clause-card">
+      <div class="left">
+        <span class="badge type">{{ clause.clauseType }}</span>
+        <span class="badge risk {{ clause.riskLevel.toLowerCase() }}">
+          {{ clause.riskLevel }}
+        </span>
+
+        <p class="original-text">
+          {{ clause.originalText }}
+        </p>
+      </div>
+
+      <div class="right">
+        @if (explanationFor(clause.id)) {
+          <p>{{ explanationFor(clause.id)!.plainEnglish }}</p>
+          <app-confidence-meter [score]="explanationFor(clause.id)!.confidenceScore">
+          </app-confidence-meter>
+          <small class="disclaimer">
+            {{ explanationFor(clause.id)!.disclaimer }}
+          </small>
+        } @else {
+          <p class="loading">Generating explanation…</p>
+        }
+      </div>
+
+      <button class="risk-btn" (click)="loadRiskExplanation(clause.id)">
+        ⚠ Why is this risky?
+      </button>
+
+      @if (riskLoading()[clause.id]) {
+        <p class="loading">Analyzing risk…</p>
+      }
+
+      @if (riskExplanations()[clause.id]) {
+        <div class="risk-panel">
+          <h4>🧠 Risk Explanation</h4>
+
+          <p>{{ riskExplanations()[clause.id]!.explanation }}</p>
+
+          <div class="impact">
+            <strong>Impact:</strong>
+            {{ riskExplanations()[clause.id]!.impact }}
+          </div>
+
+          <div class="suggestion">
+            <strong>What to double-check:</strong>
+            {{ riskExplanations()[clause.id]!.suggestion }}
+          </div>
+
+          <small class="disclaimer">
+            {{ riskExplanations()[clause.id]!.disclaimer }}
+          </small>
+        </div>
+      }
+    </div>
+  }
+</div>

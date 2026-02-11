@@ -1,0 +1,55 @@
+.dashboard {
+    padding: 32px 40px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.loading {
+    color: #64748b;
+}
+
+.empty {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.doc-table th,
+.doc-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.doc-table th {
+    background: #f8fafc;
+    text-align: left;
+    font-size: 13px;
+    color: #475569;
+}
+
+.status {
+    font-size: 12px;
+    font-weight: 600;
+    color: #16a34a;
+}
+
+.btn.ghost {
+    border: 1px solid #cbd5f5;
+    background: transparent;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn.ghost:hover {
+    background: #f1f5f9;
+}

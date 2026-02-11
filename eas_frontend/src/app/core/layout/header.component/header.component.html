@@ -1,0 +1,20 @@
+<header class="header">
+  <div class="left">
+    <div class="logo">Legal<span>DOCS</span></div>
+  </div>
+
+  <nav class="center">
+    <a routerLink="/">Home</a>
+    <a routerLink="/upload">Upload</a>
+  </nav>
+
+  <div class="right">
+    @if (!auth.isLoggedIn()) {
+      <a routerLink="/login" class="btn ghost">Login</a>
+      <a routerLink="/signup" class="btn primary">Sign up</a>
+    } @else {
+      <a routerLink="/dashboard" class="btn primary">My Docs</a>
+      <button class="btn ghost" (click)="auth.logout()">Logout</button>
+    }
+  </div>
+</header>

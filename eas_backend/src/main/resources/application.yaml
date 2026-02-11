@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: Employment Agreement Scan
+    
+  datasource:
+    url: jdbc:postgresql://localhost:5432/easDB
+    username: postgres
+    password: H@rshit15
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        
+gemini:
+  api-key: ${GEMINI_API_KEY}
+  model: gemini-2.0-flash
+
+openrouter:
+  api-key: ${OPENROUTER_API_KEY}
+  model: mistralai/mistral-7b-instruct

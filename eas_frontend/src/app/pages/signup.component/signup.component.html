@@ -1,0 +1,23 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h2>Create your account</h2>
+    <p class="subtitle">Securely analyze and understand legal documents</p>
+
+    <input type="email" placeholder="Email address" [(ngModel)]="email" />
+
+    <input type="password" placeholder="Password" [(ngModel)]="password" />
+
+    <button class="btn primary" [disabled]="email == '' || password == ''" (click)="signup()">
+      Create account
+    </button>
+
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    <p class="footer-text">
+      Already have an account?
+      <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</div>
