@@ -15,7 +15,12 @@
 
       <div class="risk-box">
         <strong>⚠️ Key Risks</strong>
-        <p>{{ summary()!.riskOverview }}</p>
+
+        <ul class="risk-list">
+          @for (risk of getRiskList(); track risk) {
+            <li>{{ risk }}</li>
+          }
+        </ul>
       </div>
 
       <div class="favors">

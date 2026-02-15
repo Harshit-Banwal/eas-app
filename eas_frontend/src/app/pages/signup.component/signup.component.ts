@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { single } from 'rxjs';
 
 @Component({
   selector: 'app-signup.component',
@@ -14,6 +15,7 @@ export class SignupComponent {
   email = '';
   password = '';
   error = '';
+  loading = signal(false);
 
   constructor(
     private auth: AuthService,
@@ -21,9 +23,16 @@ export class SignupComponent {
   ) {}
 
   signup() {
+    this.loading.set(true);
     this.auth.signup({ email: this.email, password: this.password }).subscribe({
-      next: () => this.router.navigate(['/login']),
-      error: () => (this.error = 'Signup failed'),
+      next: () => {
+        this.loading.set(false);
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.loading.set(false);
+        this.error = 'Signup failed';
+      },
     });
   }
 }

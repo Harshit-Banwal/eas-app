@@ -7,37 +7,41 @@ import com.legaldocs.eas.document.DocumentChunk;
 public class PromptBuilder {
 	
 	public static String build(
-	        String clauseText,
-	        List<DocumentChunk> context
-	    ) {
-	        StringBuilder sb = new StringBuilder();
+            String clauseText,
+            List<DocumentChunk> context
+    ) {
 
-	        sb.append("""
-			You are a legal document explainer.
-			You are NOT a lawyer.
-			Explain ONLY using the provided text.
-			Do NOT add assumptions.
-		
-			CLAUSE:
-			""").append(clauseText).append("\n\n");
+		StringBuilder sb = new StringBuilder("""
+				You are a legal contract explainer.
 
-	        sb.append("RELATED CONTEXT:\n");
-	        for (DocumentChunk c : context) {
-	            sb.append("- ").append(c.getChunkText()).append("\n");
-	        }
+				Use ONLY the provided clause and related context.
+				Do NOT add assumptions.
 
-	        sb.append("""
-			Return:
-			- Plain English explanation
-			- Who it favors
-			- One-line risk warning
-			""");
-	        
-	        sb.append("""
-    		If the answer is not fully supported by the text, say:
-    		"Not enough information in the document."
-    		""");
+				Return STRICT JSON only.
+				Do NOT include markdown.
+				Do NOT include nested objects.
+				Do NOT return arrays.
+				The value of "plainEnglish" MUST be a single string.
 
-	        return sb.toString();
-	    }
+				JSON format EXACTLY:
+
+				{
+				  "plainEnglish": "one single plain text paragraph explanation"
+				}
+
+				If unsure, still return a single string.
+
+				CLAUSE:
+				""").append(clauseText).append("\n\n");
+
+				sb.append("RELATED CONTEXT:\n");
+				for (DocumentChunk c : context) {
+				    sb.append("- ").append(c.getChunkText()).append("\n");
+				}
+
+				sb.append("\nReturn valid JSON only.");
+
+				return sb.toString();
+
+    }
 }

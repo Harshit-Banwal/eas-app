@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
@@ -14,6 +14,7 @@ export class LoginComponent {
   email = '';
   password = '';
   error = '';
+  loading = signal(false);
 
   constructor(
     private auth: AuthService,
@@ -21,13 +22,17 @@ export class LoginComponent {
   ) {}
 
   login() {
+    this.loading.set(true);
+
     this.auth.login({ email: this.email, password: this.password }).subscribe({
       next: (res) => {
         this.auth.saveToken(res.token);
-        this.router.navigate(['/upload']);
+        this.loading.set(false);
+        this.router.navigate(['']);
       },
       error: () => {
         this.error = 'Invalid credentials';
+        this.loading.set(false);
       },
     });
   }

@@ -13,6 +13,9 @@ import com.legaldocs.eas.common.CurrentUser;
 import com.legaldocs.eas.extraction.ChunkRetrievalService;
 import com.legaldocs.eas.extraction.EmbeddingService;
 
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+
 @Service
 public class DocumentSummaryService {
 	
@@ -66,11 +69,41 @@ public class DocumentSummaryService {
 	                
 	                String response = llmClient.generate(prompt);
 	                
+	                response = response.replace("```json", "")
+	                        .replace("```", "")
+	                        .trim();
+	                
+	                ObjectMapper mapper = new ObjectMapper();
+
+	                String summaryText = "Unable to generate summary.";
+	                String risksText = "No risks detected.";
+	                String favorsText = "Neutral";
+	                
+	                try {
+	                    JsonNode node = mapper.readTree(response);
+
+	                    summaryText = node.get("summary").asString();
+
+	                    JsonNode risksNode = node.get("risks");
+	                    if (risksNode != null && risksNode.isArray()) {
+	                        StringBuilder risksBuilder = new StringBuilder();
+	                        risksNode.forEach(r ->
+	                            risksBuilder.append("• ").append(r.asString()).append("\n")
+	                        );
+	                        risksText = risksBuilder.toString().trim();
+	                    }
+
+	                    favorsText = node.get("favors").asString();
+
+	                } catch (Exception e) {
+	                    summaryText = response;
+	                }
+	                
 	                DocumentSummary summary = new DocumentSummary();
 	                summary.setDocumentId(documentId);
-	                summary.setSummary(response);
-	                summary.setRiskOverview("See summary for risks.");
-	                summary.setFavors("Employer");
+	                summary.setSummary(summaryText);
+	                summary.setRiskOverview(risksText);
+	                summary.setFavors(favorsText);
 	                summary.setDisclaimer(
 	                    "AI-generated summary. Not legal advice."
 	                );

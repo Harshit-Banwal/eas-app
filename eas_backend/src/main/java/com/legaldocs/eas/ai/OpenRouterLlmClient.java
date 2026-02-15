@@ -32,12 +32,16 @@ public class OpenRouterLlmClient implements LlmClient {
         Map<String, Object> body = Map.of(
             "model", model,
             "messages", List.of(
-                Map.of(
-                    "role", "user",
-                    "content", prompt
-                )
-            ),
-            "temperature", 0.2
+            	    Map.of(
+            	        "role", "system",
+            	        "content", "You are a precise legal AI that returns structured JSON only."
+            	    ),
+            	    Map.of(
+            	        "role", "user",
+            	        "content", prompt
+            	    )
+            	),
+            "temperature", 0
         );
 
         HttpHeaders headers = new HttpHeaders();

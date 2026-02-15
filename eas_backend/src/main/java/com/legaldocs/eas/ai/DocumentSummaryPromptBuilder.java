@@ -8,12 +8,26 @@ public class DocumentSummaryPromptBuilder {
 	public static String build(List<DocumentChunk> chunks) {
 
         StringBuilder sb = new StringBuilder("""
-			You are a legal document summarizer.
-			You are NOT a lawyer.
-			Use ONLY the provided text.
-			Do NOT add assumptions.
-			
-			DOCUMENT CONTEXT:
+		You are a legal document analyzer.
+		
+		Use ONLY the provided text.
+		Do NOT add assumptions.
+		Return STRICT JSON only.
+		Do NOT include markdown.
+		Do NOT include explanations outside JSON.
+		
+		JSON format:
+		
+		{
+		  "summary": "5-6 sentence plain English summary",
+		  "risks": [
+		    "risk 1",
+		    "risk 2"
+		  ],
+		  "favors": "Employer | Employee | Neutral"
+		}
+		
+		DOCUMENT CONTEXT:
 		""");
 
         for (DocumentChunk c : chunks) {
@@ -21,16 +35,8 @@ public class DocumentSummaryPromptBuilder {
         }
 
         sb.append("""
-			Return:
-			1. Plain English summary (5–6 lines)
-			2. Key risks (bulleted)
-			3. Who the document favors (Employer / Employee / Neutral)
-        """);
-        
-        sb.append("""
-        		If the answer is not fully supported by the text, say:
-        		"Not enough information in the document."
-        """);
+		If insufficient information exists, still return valid JSON.
+		""");
 
         return sb.toString();
     }

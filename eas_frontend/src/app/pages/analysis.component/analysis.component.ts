@@ -39,6 +39,16 @@ export class AnalysisComponent {
     });
   }
 
+  getRiskList(): string[] {
+    const risks = this.summary()?.riskOverview;
+    if (!risks) return [];
+
+    return risks
+      .split('\n')
+      .map((r) => r.replace(/^•\s*/, '').trim())
+      .filter((r) => r.length > 0);
+  }
+
   loadClauses(documentId: string) {
     this.documentService.getClauses(documentId).subscribe((clauses) => {
       this.clauses.set(clauses);

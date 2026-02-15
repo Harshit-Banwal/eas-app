@@ -10,6 +10,9 @@ import com.legaldocs.eas.document.DocumentChunk;
 import com.legaldocs.eas.extraction.ChunkRetrievalService;
 import com.legaldocs.eas.extraction.EmbeddingService;
 
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+
 @Service
 public class AiExplanationService {
 	
@@ -53,10 +56,33 @@ public class AiExplanationService {
                         );
 
                         String answer = llmClient.generate(prompt);
+                        
+                        answer = answer.replace("```json", "")
+                                .replace("```", "")
+                                .trim();
+                        
+                        ObjectMapper mapper = new ObjectMapper();
+
+                        String explanation;
+
+                        try {
+                            JsonNode node = mapper.readTree(answer).get("plainEnglish");
+                            
+                            if (node == null) {
+                                explanation = answer;
+                            } else if (node.isString()) {
+                                explanation = node.asString();
+                            } else {
+                                // If model still returns object → convert object to readable text
+                                explanation = node .toString();
+                            }
+                        } catch (Exception e) {
+                            explanation = answer; // fallback
+                        }
 
                         AiExplanation exp = new AiExplanation();
                         exp.setClauseId(clause.getId());
-                        exp.setPlainEnglish(answer);
+                        exp.setPlainEnglish(explanation);
                         float confidence =
                         	    helper.confidenceCalculator(
                         	        clause.getOriginalText(),

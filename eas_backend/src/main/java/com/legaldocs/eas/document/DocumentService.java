@@ -116,7 +116,7 @@ public class DocumentService {
                     
                     	ClauseType type = clauseDetector.detectClauseType(chunkText);
 
-	                    if (type != null) {
+	                    if (type != null && type != ClauseType.OTHER) {
 	                        Clause clause = new Clause();
 	                        clause.setDocumentId(saved.getId());
 	                        clause.setClauseType(type);

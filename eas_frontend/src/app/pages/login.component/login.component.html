@@ -7,7 +7,11 @@
 
     <input type="password" placeholder="Password" [(ngModel)]="password" />
 
-    <button class="btn primary" [disabled]="email == '' || password == ''" (click)="login()">
+    <button
+      class="btn primary"
+      [disabled]="loading() || email == '' || password == ''"
+      (click)="login()"
+    >
       Login
     </button>
 

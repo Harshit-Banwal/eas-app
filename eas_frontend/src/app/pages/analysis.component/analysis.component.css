@@ -25,6 +25,16 @@
     margin: 14px 0;
 }
 
+.risk-list {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.risk-list li {
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
+
 .favors {
     margin-top: 10px;
     font-weight: 600;
@@ -41,6 +51,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
+    align-items: start;
     background: white;
     padding: 24px;
     border-radius: 14px;
@@ -98,6 +109,9 @@
     border-radius: 8px;
     cursor: pointer;
     font-size: 13px;
+    grid-column: 1 / -1;
+    justify-self: start;
+    width: auto;
 }
 
 .risk-btn:hover {
@@ -110,6 +124,7 @@
     background: #fff7ed;
     border-left: 4px solid #f97316;
     border-radius: 10px;
+    grid-column: 1 / -1;
 }
 
 .impact,
