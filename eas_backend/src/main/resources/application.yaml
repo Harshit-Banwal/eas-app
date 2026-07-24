@@ -21,4 +21,4 @@ gemini:
 
 openrouter:
   api-key: ${OPENROUTER_API_KEY}
-  model: mistralai/mistral-7b-instruct
+  model: openrouter/free

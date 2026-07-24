@@ -5,7 +5,8 @@ CLEAR-CLAUSE - Legal Document Risk Analysis Platform.
 # Technologies used -
 
 - Frontend - HTML, CSS, TYPESCRIPT, ANGULAR
-- Backend - JAVA, SPRING-BOOT, POSTGRESQL, OPEN-ROUTER_API, PG-VECTOR
+- Backend - JAVA, SPRING BOOT, POSTGRESQL, OPEN-ROUTER API, PGVECTOR
+- Embedding Service - PYTHON, FASTAPI, UVICORN, SENTENCE TRANSFORMERS, ALL-MINILM-L6-V2
 
 # Screenshots
 

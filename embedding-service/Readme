@@ -1,0 +1,4 @@
+python -m venv venv                - to create a virtual env
+.\.venv\Scripts\Activate.ps1       - start virtual env
+pip install -r requirements.txt    - to install all the requirements
+uvicorn app:app --reload           - start server

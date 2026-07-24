@@ -1,22 +1,43 @@
 package com.legaldocs.eas.extraction;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+import com.legaldocs.eas.auth.dto.EmbeddingRequest;
+import com.legaldocs.eas.auth.dto.EmbeddingResponse;
 
 @Service
 public class EmbeddingService {
 	
-	// STUB for now – replace with OpenAI / Gemini / local model
+	private final RestClient restClient;
+
+    public EmbeddingService(RestClient restClient) {
+        this.restClient = restClient;
+    }
+	
     public float[] embed(String text) {
 
-        // Temporary deterministic embedding (for testing RAG flow)
-        float[] vector = new float[384];
-        int seed = Math.abs(text.hashCode());
+    	EmbeddingResponse response = restClient.post()
+                .uri("http://localhost:8000/embed")
+                .body(new EmbeddingRequest(text))
+                .retrieve()
+                .body(EmbeddingResponse.class);
 
-        for (int i = 0; i < vector.length; i++) {
-            vector[i] = ((seed + i) % 1000) / 1000f;
+        if (response == null || response.getEmbedding() == null) {
+            throw new RuntimeException("Embedding service returned no data");
         }
+
+        List<Float> list = response.getEmbedding();
+
+        float[] vector = new float[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            vector[i] = list.get(i);
+        }
+
         return vector;
     }
     

@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -51,10 +52,16 @@ public class OpenRouterLlmClient implements LlmClient {
         HttpEntity<Map<String, Object>> request =
                 new HttpEntity<>(body, headers);
 
-        ResponseEntity<Map> response =
-                restTemplate.postForEntity(url, request, Map.class);
+        try {
+            ResponseEntity<Map> response =
+                    restTemplate.postForEntity(url, request, Map.class);
 
-        return extractText(response.getBody());
+            return extractText(response.getBody());
+
+        } catch (HttpClientErrorException ex) {
+            System.out.println(ex.getResponseBodyAsString());
+            throw ex;
+        }
     }
 	
 	@SuppressWarnings("unchecked")
